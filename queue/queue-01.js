@@ -32,6 +32,7 @@ class Queue {
       this.tail.next = newNode;
       this.tail = newNode;
     }
+    this.size += 1;
   }
   dequeue() {
     const value = this.head.value;
@@ -44,6 +45,24 @@ class Queue {
 }
 
 function solution(priorities, location) {
-  var answer = 0;
-  return answer;
+  const queue = new Queue();
+  for (let i = 0; i < priorities.length; i++) {
+    queue.enqueue([priorities[i], i]);
+  }
+  // 내림차순 정렬
+  priorities.sort(a, (b) => b - a);
+
+  let count = 0;
+  while (queue.size) {
+    const currentValue = queue.peek();
+    if (currentValue[0] < priorities[count]) {
+      queue.enqueue(queue.dequeue());
+    } else {
+      const value = queue.dequeue();
+      count += 1;
+      if (location === value[1]) {
+        return count;
+      }
+    }
+  }
 }
