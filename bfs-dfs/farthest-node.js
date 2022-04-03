@@ -20,20 +20,15 @@ function solution(n, edge) {
   const queue = [1];
   while (queue.length > 0) {
     const src = queue.shift();
-    console.log("1 shift src : " + src);
     for (const dest of graph[src]) {
-      console.log("2. for dest :" + dest);
       if (distance[dest] === 0) {
         queue.push(dest);
-        console.log(queue);
         distance[dest] = distance[src] + 1;
-        console.log(distance);
       }
     }
-    console.log("==========================");
   }
-
-  console.log(distance);
+  const max = Math.max(...distance);
+  return distance.filter((item) => item === max).length;
 }
 
 solution(num, vertex);
