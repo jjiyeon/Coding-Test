@@ -13,30 +13,33 @@
  *  - 해시 테이블과 연결 리스트를 이용하여 구현할 수 있다.
  */
 function makeTrie(words) {
-  const root = {};
+  const root = {}; //루트 노드
   for (const word of words) {
+    //trie를 구성하기 위한 루프
     let current = root;
     for (const letter of word) {
-      if (!current[letter]) current[letter] = [0, {}];
-      current[letter][0] = 1 + (current[letter][0] || 0);
-      current = current[letter][1];
+      //단어의 글자 하나씩 추출
+      if (!current[letter]) current[letter] = [0, {}]; //값을 넣는다. 첫번째는 학습된 단어가 몇개인지, 두번째는 트리구조로 이용할 노드 값 사용
+      current[letter][0] = 1 + (current[letter][0] || 0); // 카운팅 +1
+      current = current[letter][1]; // current는 letter에 해당하는 노드로 이동
     }
   }
   return root;
 }
 function solution(words) {
   let answer = 0;
-  const trie = makeTrie(words);
+  const trie = makeTrie(words); //trie 자료구조 생성
 
   for (const word of words) {
     let count = 0;
-    let current = trie;
+    let current = trie; //루트부터 시작
     for (const [index, letter] of [...word].entries()) {
       count += 1;
       if (current[letter][0] <= 1) {
+        //단어가 하나 이하로 남을경우 종료
         break;
       }
-      current = current[letter][1];
+      current = current[letter][1]; // 다음노드로 이동
     }
     answer += count;
   }
